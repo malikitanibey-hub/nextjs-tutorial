@@ -13,7 +13,7 @@ function extractData(filePath) {
     const data = JSON.parse(jsonData);
     return data;
 }
-let allEventsCache = [];
+
 export default function handler(req, res){
     const {method} = req;
 
@@ -36,7 +36,7 @@ export default function handler(req, res){
             });
         }    
 
-    if(req.method === "POST"){
+    if(method === "POST"){
         const {email, eventId} = req.body;
 
         if(!email | !email.includes('@')){
@@ -63,8 +63,7 @@ export default function handler(req, res){
         });
 
         fs.writeFileSync(filePath, JSON.stringify({events_categories, allEvents: newAllEvents}))
-    allEventsCache.push({ email, eventId });
-        return res.status(200).json({message: 
+        res.status(200).json({message: 
              `You has been registered successfully with the email: ${email} for the event: ${eventId}`});
     }
 }
